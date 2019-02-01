@@ -58,70 +58,107 @@ const StrengthContainer = styled.div`
 `;
 
 class PassGenie extends Component {
-    state = {
-        password: 'rt^266@2',
-        maxLength: 64,
-        maxDigits: 10,
-        maxSymbold: 10,
-        length: 12,
-        digits: 4,
-        symbold: 2
-    }
 
-    render() {
-        return (
-            <Wrapper>
-                <Card className='card'>
-                    <CardContent>
-                        <Typography component="h2">
-                            The Password Genie
-                        </Typography>
-                        <TextFieldContainer>
-                            <TextField
-                                className='field'
-                                id="outlined-read-only-input"
-                                label="Password"
-                                defaultValue={this.state.password}
-                                margin="normal"
-                                InputProps={{
-                                    readOnly: true,
-                                }}
-                                variant="outlined"
-                            />
-                        </TextFieldContainer>
-                        <ControllsContainer>
-                            <StrengthContainer>
-                                <div className='header'>
-                                    <Typography component='span' className='name'>
-                                        Name
-                                    </Typography >
-                                    <Typography component='span'  className='value'>
-                                        Value
-                                    </Typography>
-                                </div>
-                                <LinearProgress color="secondary"  variant="buffer" value={20} valueBuffer={20} />
-                            </StrengthContainer>
-                            <Divider />
-                            <SliderContainer>
-                                <div className='header'>
-                                    <Typography component='span' className='name'>
-                                        Name
-                                    </Typography >
-                                    <Typography component='span'  className='value'>
-                                        Value
-                                    </Typography>
-                                </div>
-                                <Slider
-                                    value={50}
-                                    aria-labelledby="label"
-                                />
-                            </SliderContainer>
-                        </ControllsContainer>
-                    </CardContent>
-                </Card>
-            </Wrapper>
-        );
-    }
+	constructor() {
+		super();
+		this.state = {
+			password: 'rt^266@2',
+			maxLength: 64,
+			maxDigits: 10,
+			maxSymbold: 10,
+			length: 12,
+			digits: 4,
+			symbold: 2
+		}
+	};
+
+	handleSliderChange = (event, value, name) => {
+		if (name === 'length') {
+			this.setState({ length: value });
+		} else if (name === 'digits') {
+			this.setState({ digits: value });
+		} else if (name === 'symbold') {
+			this.setState({ symbold: value })
+		}
+	};
+
+	render() {
+
+		const { password, maxLength, maxDigits, maxSymbold, length, digits, symbold } = this.state
+
+		return (
+			<Wrapper>
+				<Card className='card'>
+					<CardContent>
+						<Typography component='h2'>The Password Genie</Typography>
+						<TextFieldContainer>
+							<TextField
+								className='field'
+								id='outlined-read-only-input'
+								label='Password'
+								defaultValue={password}
+								margin='normal'
+								InputProps={{ readOnly: true }}
+								variant='outlined'
+							/>
+						</TextFieldContainer>
+						<ControllsContainer>
+							<StrengthContainer>
+								<div className='header'>
+									<Typography component='span' className='name'>Password strength</Typography >
+									<Typography component='span' className='value'>Value</Typography>
+								</div>
+								<LinearProgress color='secondary' variant='buffer' value={10} valueBuffer={80} />
+							</StrengthContainer>
+							<Divider />
+							<SliderContainer>
+								<div className='header'>
+									<Typography component='span' className='name'>Length</Typography >
+									<Typography component='span' className='value'>{length}</Typography>
+								</div>
+								<Slider
+									value={length}
+									aria-labelledby='label'
+									step={1}
+									min={8}
+									max={maxLength}
+									onChange={(e) => this.handleSliderChange(e, 'length')}
+								/>
+							</SliderContainer>
+							<SliderContainer>
+								<div className='header'>
+									<Typography component='span' className='name'>Number of digits</Typography >
+									<Typography component='span' className='value'>{digits}</Typography>
+								</div>
+								<Slider
+									value={digits}
+									aria-labelledby='label'
+									step={1}
+									min={0}
+									max={maxDigits}
+									onChange={(e) => this.handleSliderChange(e, 'digits')}
+								/>
+							</SliderContainer>
+							<SliderContainer>
+								<div className='header'>
+									<Typography component='span' className='name'>Number of Symbols</Typography >
+									<Typography component='span' className='value'>{symbold}</Typography>
+								</div>
+								<Slider
+									value={symbold}
+									aria-labelledby='label'
+									step={1}
+									min={0}
+									max={maxSymbold}
+									onChange={(e) => this.handleSliderChange(e, 'symbold')}
+								/>
+							</SliderContainer>
+						</ControllsContainer>
+					</CardContent>
+				</Card>
+			</Wrapper>
+		);
+	};
 }
 
 export default PassGenie;
